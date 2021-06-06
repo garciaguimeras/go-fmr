@@ -32,7 +32,7 @@ func (s *Slice) Reduce(f ReduceFunction) *Slice {
 }
 
 func (s *Slice) Get() (interface{}, error) {
-	ctx := CreateContext(s.data)
+	ctx := createContext(s.data)
 	for _, fn := range s.functions {
 		switch f := fn.(type) {
 		case FilterFunction:

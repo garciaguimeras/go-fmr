@@ -5,19 +5,19 @@ import (
 	"reflect"
 )
 
-type Context struct {
+type context struct {
 	data interface{}
 	err  error
 }
 
-func CreateContext(data interface{}) *Context {
-	return &Context{
+func createContext(data interface{}) *context {
+	return &context{
 		data: data,
 		err:  nil,
 	}
 }
 
-func (c *Context) filterer(l reflect.Value, f FilterFunction) []interface{} {
+func (c *context) filterer(l reflect.Value, f FilterFunction) []interface{} {
 	var result []interface{}
 	for i := 0; i < l.Len(); i++ {
 		item := l.Index(i).Interface()
@@ -28,7 +28,7 @@ func (c *Context) filterer(l reflect.Value, f FilterFunction) []interface{} {
 	return result
 }
 
-func (c *Context) mapper(l reflect.Value, f MapFunction) []interface{} {
+func (c *context) mapper(l reflect.Value, f MapFunction) []interface{} {
 	var result []interface{}
 	for i := 0; i < l.Len(); i++ {
 		item := l.Index(i).Interface()
@@ -38,7 +38,7 @@ func (c *Context) mapper(l reflect.Value, f MapFunction) []interface{} {
 	return result
 }
 
-func (c *Context) reducer(l reflect.Value, f ReduceFunction) interface{} {
+func (c *context) reducer(l reflect.Value, f ReduceFunction) interface{} {
 	if l.Len() == 0 {
 		return nil
 	}
@@ -50,7 +50,7 @@ func (c *Context) reducer(l reflect.Value, f ReduceFunction) interface{} {
 	return result
 }
 
-func (c *Context) executeFilter(f FilterFunction) {
+func (c *context) executeFilter(f FilterFunction) {
 	t := reflect.ValueOf(c.data)
 	if t.Kind() == reflect.Slice {
 		c.data = c.filterer(t, f)
@@ -59,7 +59,7 @@ func (c *Context) executeFilter(f FilterFunction) {
 	}
 }
 
-func (c *Context) executeMap(f MapFunction) {
+func (c *context) executeMap(f MapFunction) {
 	t := reflect.ValueOf(c.data)
 	if t.Kind() == reflect.Slice {
 		c.data = c.mapper(t, f)
@@ -68,7 +68,7 @@ func (c *Context) executeMap(f MapFunction) {
 	}
 }
 
-func (c *Context) executeReduce(f ReduceFunction) {
+func (c *context) executeReduce(f ReduceFunction) {
 	t := reflect.ValueOf(c.data)
 	if t.Kind() == reflect.Slice {
 		c.data = c.reducer(t, f)
