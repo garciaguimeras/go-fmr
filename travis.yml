@@ -1,0 +1,10 @@
+language: go
+go:
+  - 1.x
+
+script:
+  - go test github.com/garciaguimeras/go-fmr/test
+
+matrix:
+  allow_failures:
+    - go: master
