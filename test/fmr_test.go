@@ -21,7 +21,7 @@ func equals(a []interface{}, b []interface{}) bool {
 }
 
 func TestFilterNumbers(t *testing.T) {
-	even, err := fmr.NewSlice(INT_LIST).
+	even, err := fmr.SetSlice(INT_LIST).
 		Filter(func(it interface{}) bool {
 			n := it.(int)
 			return n%2 == 0
@@ -37,7 +37,7 @@ func TestFilterNumbers(t *testing.T) {
 }
 
 func TestFilterNumbersWithEmptyResult(t *testing.T) {
-	empty, err := fmr.NewSlice(INT_LIST).
+	empty, err := fmr.SetSlice(INT_LIST).
 		Filter(func(it interface{}) bool {
 			n := it.(int)
 			return n > 20
@@ -53,7 +53,7 @@ func TestFilterNumbersWithEmptyResult(t *testing.T) {
 }
 
 func TestFilterEmptyArray(t *testing.T) {
-	empty, err := fmr.NewSlice([]int{}).
+	empty, err := fmr.SetSlice([]int{}).
 		Filter(func(it interface{}) bool {
 			n := it.(int)
 			return n > 20
@@ -69,7 +69,7 @@ func TestFilterEmptyArray(t *testing.T) {
 }
 
 func TestFilterNoArray(t *testing.T) {
-	_, err := fmr.NewSlice(0).
+	_, err := fmr.SetSlice(0).
 		Filter(func(it interface{}) bool {
 			n := it.(int)
 			return n > 20
@@ -82,7 +82,7 @@ func TestFilterNoArray(t *testing.T) {
 }
 
 func TestMapNumbers(t *testing.T) {
-	twice, err := fmr.NewSlice(INT_LIST).
+	twice, err := fmr.SetSlice(INT_LIST).
 		Map(func(it interface{}) interface{} {
 			n := it.(int)
 			return n * 2
@@ -98,7 +98,7 @@ func TestMapNumbers(t *testing.T) {
 }
 
 func TestMapEmptyArray(t *testing.T) {
-	empty, err := fmr.NewSlice([]int{}).
+	empty, err := fmr.SetSlice([]int{}).
 		Map(func(it interface{}) interface{} {
 			n := it.(int)
 			return n * 2
@@ -114,7 +114,7 @@ func TestMapEmptyArray(t *testing.T) {
 }
 
 func TestMapNoArray(t *testing.T) {
-	_, err := fmr.NewSlice(0).
+	_, err := fmr.SetSlice(0).
 		Map(func(it interface{}) interface{} {
 			n := it.(int)
 			return n * 2
@@ -127,7 +127,7 @@ func TestMapNoArray(t *testing.T) {
 }
 
 func TestReduceNumbers(t *testing.T) {
-	sum, err := fmr.NewSlice(INT_LIST).
+	sum, err := fmr.SetSlice(INT_LIST).
 		Reduce(func(res interface{}, it interface{}) interface{} {
 			r := res.(int)
 			n := it.(int)
@@ -144,7 +144,7 @@ func TestReduceNumbers(t *testing.T) {
 }
 
 func TestReduceEmptyArray(t *testing.T) {
-	sum, err := fmr.NewSlice([]int{}).
+	sum, err := fmr.SetSlice([]int{}).
 		Reduce(func(res interface{}, it interface{}) interface{} {
 			r := res.(int)
 			n := it.(int)
@@ -161,7 +161,7 @@ func TestReduceEmptyArray(t *testing.T) {
 }
 
 func TestReduceNoArray(t *testing.T) {
-	_, err := fmr.NewSlice(0).
+	_, err := fmr.SetSlice(0).
 		Reduce(func(res interface{}, it interface{}) interface{} {
 			r := res.(int)
 			n := it.(int)
@@ -175,7 +175,7 @@ func TestReduceNoArray(t *testing.T) {
 }
 
 func TestCombined(t *testing.T) {
-	sum, err := fmr.NewSlice(INT_LIST).
+	sum, err := fmr.SetSlice(INT_LIST).
 		Filter(func(it interface{}) bool {
 			n := it.(int)
 			return n%2 == 0
