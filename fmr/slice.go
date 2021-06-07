@@ -1,8 +1,13 @@
 // Package fmr provides filter, map and reduce functions to use with Go slices
 package fmr
 
+// FilterFunction defines the filter function prototype
 type FilterFunction func(elem interface{}) bool
+
+// MapFunction defines the map function prototype
 type MapFunction func(elem interface{}) interface{}
+
+// ReduceFunction defines the reduce function prototype
 type ReduceFunction func(elem1 interface{}, elem2 interface{}) interface{}
 
 // Slice contains the slice data and the function chain to be applied
