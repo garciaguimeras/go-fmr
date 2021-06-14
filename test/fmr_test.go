@@ -198,3 +198,70 @@ func TestCombined(t *testing.T) {
 		t.Error("error in combined function")
 	}
 }
+
+func TestFilterChannelOk(t *testing.T) {
+	ch := fmr.SetSlice(INT_LIST).
+		Filter(func(it interface{}) bool {
+			n := it.(int)
+			return n%2 == 0
+		}).
+		Channel()
+
+	value := <-ch
+	switch v := value.(type) {
+	case error:
+		t.Error(v)
+	case []interface{}:
+		if !equals(v, []interface{}{2, 4, 6}) {
+			t.Error("error filtering even numbers")
+		}
+	default:
+		t.Error("wrong result type")
+	}
+}
+
+func TestFilterChannelNoArray(t *testing.T) {
+	ch := fmr.SetSlice(0).
+		Filter(func(it interface{}) bool {
+			n := it.(int)
+			return n%2 == 0
+		}).
+		Channel()
+
+	value := <-ch
+	switch value.(type) {
+	case error:
+		//
+	default:
+		t.Error("should raise an error")
+	}
+}
+
+func TestChannelClosed(t *testing.T) {
+	ch := fmr.SetSlice(INT_LIST).
+		Filter(func(it interface{}) bool {
+			n := it.(int)
+			return n%2 == 0
+		}).
+		Channel()
+
+	i := 0
+	for value := range ch {
+		if i > 0 {
+			t.Error("channel should close after result")
+		}
+
+		switch v := value.(type) {
+		case error:
+			t.Error(v)
+		case []interface{}:
+			if !equals(v, []interface{}{2, 4, 6}) {
+				t.Error("error filtering even numbers")
+			}
+		default:
+			t.Error("wrong result type")
+		}
+		i += 1
+	}
+
+}
